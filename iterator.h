@@ -2,10 +2,10 @@
 #define ITERATOR_H
 
 typedef struct s_iterator {
-	int		(*next)(struct t_iterator* iter);
-	void*	(*elem)(struct t_iterator* iter);
-	void	(*dispose)(struct t_iterator* iter);
-	void*	istrunct;
+	int		(*next)(struct s_iterator* iter);
+	void*	(*elem)(struct s_iterator* iter);
+	void	(*dispose)(struct s_iterator* iter);
+	void*	istruct;
 }	t_iterator;
 
 #endif

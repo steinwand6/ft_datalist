@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-#include "libft.h"
+#include "libft/libft.h"
 #include "iterator.h"
 
 typedef struct	s_dlnode {
@@ -116,3 +116,5 @@ void	dllist_remove(t_dllist *l, size_t pos, void *elem_out);
  *                  into this memory.
  */
 void	dllist_set(t_dllist *l, size_t pos, void *elem, void *old_elem);
+
+#endif

@@ -3,7 +3,7 @@
 
 #include "dllist.h"
 #include "iterator.h"
-#include "libft/iterator.h"
+#include "libft/libft.h"
 
 typedef struct	s_dllist_it {
 	t_dlnode	*node;
@@ -83,7 +83,7 @@ void	dllist_add(t_dllist *l, size_t pos, void *elem)
 	node->data = malloc(l->elem_size);
 	if (!(node->data))
 		exit(1);
-	insertiton_node = get_node(l, pos);
+	insertion_node = get_node(l, pos);
 	node->prev = insertion_node->prev;
 	node->next = insertion_node;
 	node->next->prev = node;
@@ -151,7 +151,7 @@ void	dllist_iterator(t_dllist *l, t_iterator *it, size_t start, size_t end)
 	if (start > end)
 		istruct->rem = start - end;
 	istruct->fwd = start <= end;
-	istruct->node ~ get_node(i, start);
+	istruct->node = get_node(l, start);
 	it->istruct = istruct;
 }
 
@@ -178,7 +178,7 @@ void	dllist_set(t_dllist *l, size_t pos, void *elem, void *old_elem)
 	if (l == NULL || pos >= l->length || elem == NULL)
 		exit(1);
 	node = get_node(l, pos);
-	if (old_node != NULL)
-		ft_memcpy(old_node, node->data, l->elem_size);
+	if (old_elem != NULL)
+		ft_memcpy(old_elem, node->data, l->elem_size);
 	ft_memcpy(node->data, elem, l->elem_size);
 }
