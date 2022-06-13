@@ -1,74 +1,4 @@
-#include <stdlib.h>
-#include <string.h>
-
 #include "dllist.h"
-#include "iterator.h"
-#include "libft/libft.h"
-
-typedef struct	s_dllist_it {
-	t_dlnode	*node;
-	size_t		rem;
-	int			fwd;
-	int			started;
-}	t_dllist_it;
-
-static int	it_next(t_iterator *it)
-{
-	t_dllist_it	*a;
-
-	a = it->istruct;
-	if (!a->started)
-		return (a->started = 1);
-	if (a->rem == 0)
-		return (0);
-	if (a->fwd)
-		a->node = a->node->next;
-	else
-		a->node = a->node->prev;
-	a->rem--;
-	return (1);
-}
-
-static void	*it_elem(t_iterator *it)
-{
-	t_dllist_it	*a;
-
-	a = it->istruct;
-	return a->node->data;
-}
-
-static void	it_dispose(t_iterator *it)
-{
-	free(it->istruct);
-}
-
-static t_dlnode	*get_node(t_dllist *l, size_t pos)
-{
-	t_dlnode	*node;
-	size_t		i;
-
-	if (pos < l->length / 2)
-	{
-		node = l->dummy->next;
-		i = 0;
-		while (i < pos)
-		{
-			node = node->next;
-			i++;
-		}
-	}
-	else
-	{
-		node = l->dummy;
-		i = l->length;
-		while (i > pos)
-		{
-			node = node->prev;
-			i--;
-		}
-	}
-	return (node);
-}
 
 void	dllist_add(t_dllist *l, size_t pos, void *elem)
 {
@@ -92,24 +22,6 @@ void	dllist_add(t_dllist *l, size_t pos, void *elem)
 	ft_memcpy(node->data, elem, l->elem_size);
 }
 
-void	dllist_dispose(t_dllist *l)
-{
-	t_dlnode	*node;
-	t_dlnode	*old_node;
-
-	if (l == NULL)
-		exit(1);
-	node = l->dummy->next;
-	while (node != l->dummy)
-	{
-		free(node->data);
-		old_node = node;
-		node = node->next;
-		free(old_node);
-	}
-	free(l->dummy);
-}
-
 void	dllist_get(t_dllist *l, size_t pos, void *elem_out)
 {
 	t_dlnode	*node;
@@ -118,20 +30,6 @@ void	dllist_get(t_dllist *l, size_t pos, void *elem_out)
 		exit(1);
 	node = get_node(l, pos);
 	ft_memcpy(elem_out, node->data, l->elem_size);
-}
-
-void	dllist_init(t_dllist *l, size_t elem_size)
-{
-	if (l == NULL || elem_size <= 0)
-		exit(1);
-	l->dummy = malloc(sizeof(t_dlnode));
-	if (l->dummy == NULL)
-		exit(1);
-	l->length = 0;
-	l->elem_size = elem_size;
-	l->dummy->next = l->dummy;
-	l->dummy->prev = l->dummy;
-	l->dummy->data = NULL;
 }
 
 void	dllist_iterator(t_dllist *l, t_iterator *it, size_t start, size_t end)

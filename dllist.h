@@ -1,22 +1,35 @@
 #ifndef DLLIST_H
-#define DLLIST_H
+# define DLLIST_H
 
-#include <stdlib.h>
+# include <stdlib.h>
+# include <string.h>
 
-#include "libft/libft.h"
-#include "iterator.h"
+# include "libft/libft.h"
+# include "iterator.h"
 
-typedef struct	s_dlnode {
+typedef struct s_dlnode {
 	void			*data;
 	struct s_dlnode	*next;
 	struct s_dlnode	*prev;
 }	t_dlnode;
 
-typedef struct {
+typedef struct s_sllist {
 	size_t		elem_size;
 	size_t		length;
 	t_dlnode	*dummy;
 }	t_dllist;
+
+typedef struct s_dllist_it {
+	t_dlnode	*node;
+	size_t		rem;
+	int			fwd;
+	int			started;
+}	t_dllist_it;
+
+int			it_next(t_iterator *it);
+void		*it_elem(t_iterator *it);
+void		it_dispose(t_iterator *it);
+t_dlnode	*get_node(t_dllist *l, size_t pos);
 
 /* FUNCTION
  *      dllist_add
@@ -29,7 +42,7 @@ typedef struct {
  *      pos         The position where the element will be inserted.
  *      elem        The element that will be copied into the list.
  */
-void	dllist_add(t_dllist *l, size_t pos, void *elem);
+void		dllist_add(t_dllist *l, size_t pos, void *elem);
 
 /* FUNCTION
  *      dllist_dispose
@@ -42,7 +55,7 @@ void	dllist_add(t_dllist *l, size_t pos, void *elem);
  * PARAMETERS
  *      l           A valid pointer to an initialized dllist_t struct.
  */
-void	dllist_dispose(t_dllist *l);
+void		dllist_dispose(t_dllist *l);
 
 /* FUNCTION
  *      dllist_get
@@ -56,7 +69,7 @@ void	dllist_dispose(t_dllist *l);
  *      elem_out    The element at pos will be copied into the memory pointed to
  *                  by this argument.
  */
-void	dllist_get(t_dllist *l, size_t pos, void *elem_out);
+void		dllist_get(t_dllist *l, size_t pos, void *elem_out);
 
 /* FUNCTION
  *      dllist_init
@@ -68,7 +81,7 @@ void	dllist_get(t_dllist *l, size_t pos, void *elem_out);
  *      l           A valid pointer to an dllist_t struct.
  *      elem_size   Size of the elements that will be stored in the list.
  */
-void	dllist_init(t_dllist *l, size_t elem_size);
+void		dllist_init(t_dllist *l, size_t elem_size);
 
 /* FUNCTION
  *      dllist_iterator
@@ -86,7 +99,8 @@ void	dllist_init(t_dllist *l, size_t elem_size);
  *      start       Start position (inclusive, must be less than length).
  *      end         End position (inclusive, must be less than length).
  */
-void	dllist_iterator(t_dllist *l, t_iterator *it, size_t start, size_t end);
+void		dllist_iterator(t_dllist *l, t_iterator *it,
+				size_t start, size_t end);
 
 /* FUNCTION
  *      dllist_remove
@@ -100,7 +114,7 @@ void	dllist_iterator(t_dllist *l, t_iterator *it, size_t start, size_t end);
  *      elem_out    If not null, the removed element will be copied into this
  *                  memory.
  */
-void	dllist_remove(t_dllist *l, size_t pos, void *elem_out);
+void		dllist_remove(t_dllist *l, size_t pos, void *elem_out);
 
 /* FUNCTION
  *      dllist_set
@@ -115,6 +129,6 @@ void	dllist_remove(t_dllist *l, size_t pos, void *elem_out);
  *      old_elem    If not null, the old element at this position will be copied
  *                  into this memory.
  */
-void	dllist_set(t_dllist *l, size_t pos, void *elem, void *old_elem);
+void		dllist_set(t_dllist *l, size_t pos, void *elem, void *old_elem);
 
 #endif
